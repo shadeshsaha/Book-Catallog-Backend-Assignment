@@ -1,4 +1,6 @@
 import { Category, Prisma } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -71,7 +73,25 @@ const getAllCategories = async (
   };
 };
 
+const getCategoryById = async (id: string): Promise<Category | null> => {
+  const result = await prisma.category.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      books: true,
+    },
+  });
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Category Doesn't Exists");
+  }
+
+  return result;
+};
+
 export const CategoryService = {
   createCategory,
   getAllCategories,
+  getCategoryById,
 };
