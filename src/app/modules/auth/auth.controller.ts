@@ -12,7 +12,7 @@ const signUp = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User Created Successfully!',
+    message: 'User Created/Sign-Up Successfully!',
     data: result,
   });
 });
