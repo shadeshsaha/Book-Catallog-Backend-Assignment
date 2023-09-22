@@ -8,4 +8,6 @@ router.get('/:id', CategoryController.getCategoryById);
 
 router.post('/create-category', CategoryController.createCategory);
 
+router.patch('/:id', CategoryController.updateCategory);
+
 export const CategoryRoutes = router;

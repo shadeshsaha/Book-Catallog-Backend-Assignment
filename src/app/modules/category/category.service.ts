@@ -90,8 +90,34 @@ const getCategoryById = async (id: string): Promise<Category | null> => {
   return result;
 };
 
+const updateCategory = async (
+  id: string,
+  data: Partial<Category>
+): Promise<Category | null> => {
+  const isExists = await prisma.category.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!isExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Category Doesn't Exists");
+  }
+
+  const result = await prisma.category.update({
+    where: { id },
+    data,
+    include: {
+      books: true,
+    },
+  });
+
+  return result;
+};
+
 export const CategoryService = {
   createCategory,
   getAllCategories,
   getCategoryById,
+  updateCategory,
 };
