@@ -1,4 +1,5 @@
 import express from 'express';
+import { AuthRoutes } from '../modules/auth/auth.routes';
 // import { AuthRoutes } from '../modules/auth/auth.routes';
 // import { BookRoutes } from '../modules/book/book.routes';
 // import { CategoryRoutes } from '../modules/category/category.routes';
@@ -11,33 +12,9 @@ const router = express.Router();
 const moduleRoutes = [
   // ... routes
   {
-    path: '',
-    route: '',
+    path: '/auth',
+    route: AuthRoutes,
   },
-  // {
-  //   path: '/auth',
-  //   route: AuthRoutes,
-  // },
-  // {
-  //   path: '/users',
-  //   route: UserRoutes,
-  // },
-  // {
-  //   path: '/categories',
-  //   route: CategoryRoutes,
-  // },
-  // {
-  //   path: '/books',
-  //   route: BookRoutes,
-  // },
-  // {
-  //   path: '/orders',
-  //   route: OrderRoutes,
-  // },
-  // {
-  //   path: '/profile',
-  //   route: ProfileRoutes,
-  // },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.route));
