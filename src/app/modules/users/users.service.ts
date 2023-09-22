@@ -1,4 +1,6 @@
 import { Prisma, User } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -64,6 +66,23 @@ const getAllUsers = async (
   };
 };
 
+const getUserById = async (id: string): Promise<User | null> => {
+  const result = await prisma.user.findUnique({
+    where: { id },
+    include: {
+      reviewAndRatings: true,
+      orders: true,
+    },
+  });
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User Doesn't Exists");
+  }
+
+  return result;
+};
+
 export const UserService = {
   getAllUsers,
+  getUserById,
 };
