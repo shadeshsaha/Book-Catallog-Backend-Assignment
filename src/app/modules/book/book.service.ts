@@ -1,4 +1,6 @@
 import { Book, Prisma } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -92,7 +94,26 @@ const getAllBooks = async (
   };
 };
 
+const getBookById = async (id: string): Promise<Book | null> => {
+  const result = await prisma.book.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      category: true,
+      reviewAndRatings: true,
+    },
+  });
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Book Doesn't Exists");
+  }
+
+  return result;
+};
+
 export const BookService = {
   createBook,
   getAllBooks,
+  getBookById,
 };
