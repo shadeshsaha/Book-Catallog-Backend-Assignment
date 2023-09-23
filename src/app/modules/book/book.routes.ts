@@ -9,4 +9,6 @@ router.get('/:categoryId/category', BookController.getBookByCategoryId);
 
 router.post('/create-book', BookController.createBook);
 
+router.patch('/:id', BookController.updateBook);
+
 export const BookRoutes = router;
