@@ -112,8 +112,27 @@ const getBookById = async (id: string): Promise<Book | null> => {
   return result;
 };
 
+const getBookByCategoryId = async (id: string): Promise<Book[] | null> => {
+  const result = await prisma.book.findMany({
+    where: {
+      categoryId: id,
+    },
+    include: {
+      category: true,
+      reviewAndRatings: true,
+    },
+  });
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Book Doesn't Exists");
+  }
+
+  return result;
+};
+
 export const BookService = {
   createBook,
   getAllBooks,
   getBookById,
+  getBookByCategoryId,
 };

@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/', BookController.getAllBooks);
 router.get('/:id', BookController.getBookById);
+router.get('/:categoryId/category', BookController.getBookByCategoryId);
 
 router.post('/create-book', BookController.createBook);
 
