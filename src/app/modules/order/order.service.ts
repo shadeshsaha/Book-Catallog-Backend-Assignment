@@ -36,6 +36,54 @@ const createOrder = async (
   return result;
 };
 
+const getAllOrders = async (id: string, role: string) => {
+  let result;
+
+  if (role === UserRole.admin) {
+    result = await prisma.order.findMany({
+      // where: {
+      //   userId: id,
+      // },
+      // include: {
+      //   orderedBooks: true,
+      // },
+
+      include: {
+        user: true,
+        orderedBooks: {
+          include: {
+            book: true,
+          },
+        },
+      },
+    });
+    return result;
+  }
+
+  if (role === UserRole.customer) {
+    result = await prisma.order.findMany({
+      // where: {
+      //   userId: id,
+      // },
+      // include: {
+      //   orderedBooks: true,
+      // },
+
+      include: {
+        user: true,
+        orderedBooks: {
+          include: {
+            book: true,
+          },
+        },
+      },
+    });
+
+    return result;
+  }
+};
+
 export const OrderService = {
   createOrder,
+  getAllOrders,
 };
