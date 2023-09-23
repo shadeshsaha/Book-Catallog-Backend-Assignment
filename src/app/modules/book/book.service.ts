@@ -156,10 +156,33 @@ const updateBook = async (
   return result;
 };
 
+const deleteBook = async (id: string): Promise<Book | null> => {
+  const isExists = await prisma.book.findUnique({
+    where: { id },
+  });
+
+  if (!isExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Book Doesn't Exists");
+  }
+
+  const result = await prisma.book.delete({
+    where: {
+      id,
+    },
+    include: {
+      category: true,
+      reviewAndRatings: true,
+    },
+  });
+
+  return result;
+};
+
 export const BookService = {
   createBook,
   getAllBooks,
   getBookById,
   getBookByCategoryId,
   updateBook,
+  deleteBook,
 };
