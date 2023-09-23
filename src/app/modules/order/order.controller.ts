@@ -54,7 +54,7 @@ const getSingleOrder = catchAsync(async (req: Request, res: Response) => {
   } | null;
   const userId = decodedToken?.payload?.id as string;
   const role = decodedToken?.payload?.role as string;
-  const orderId = req.params.id;
+  const orderId = req.params.orderId;
 
   const result = await OrderService.getSingleOrder(userId, role, orderId);
 
